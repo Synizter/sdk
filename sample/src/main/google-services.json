@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "514600643228",
+    "firebase_url": "https://temi-cmd.firebaseio.com",
+    "project_id": "temi-cmd",
+    "storage_bucket": "temi-cmd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514600643228:android:e7cb78e7dbf519bb631b59",
+        "android_client_info": {
+          "package_name": "com.robotemi.sdk.temicmd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514600643228-0vplb3h6cv3pqriuuqlb33bduai710jl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFvnDuJ22CCN8ODmpmykgzpUUkfCFbKHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514600643228-0vplb3h6cv3pqriuuqlb33bduai710jl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
