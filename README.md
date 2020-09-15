@@ -1,4 +1,4 @@
 
 
 * [Getting Started][4]
-* [中文文档][5]
+[4]: https://github.com/robotemi/sdk/wiki
