@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteException;
@@ -160,11 +161,15 @@ public class MainActivity extends AppCompatActivity implements
 
     private AppCompatImageView ivFace;
 
-//    private Queue<DataSnapshot> qAction = new LinkedList<>();
     private Queue<DataSnapshot> qAction = new LinkedList<>();
-//    private DataSnapshot prev_action = null;
     private DataSnapshot currentAction;
     private boolean isActionDone = true;
+
+    private DatabaseReference actReference;
+    private DatabaseReference progStatusReference;
+
+    ChildEventListener actionListener;
+    ChildEventListener progInfoListener;
 
     /**
      * Hiding keyboard after every button press
@@ -193,26 +198,30 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        initViews();
+        verifyStoragePermissions(this);
+        robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
+        robot.addOnRequestPermissionResultListener(this);
+        robot.addOnTelepresenceEventChangedListener(this);
+        robot.addOnFaceRecognizedListener(this);
+        robot.addOnSdkExceptionListener(this);
 
-    /**
-     * Test command decoder
-     */
-    private int commandDecoder(DataSnapshot a) {
-        try {
-            robot.speak(TtsRequest.create("YESSSSSS", true));
-            if(a.getValue() == "SPEAK") {
-                robot.speak(TtsRequest.create(a.getValue().toString(), true));
-            }
-        }catch (Exception e) {
-            Log.e("ActionError", "" + e.toString());
-            return -1;
-        }
-        finally {
-            return 1;
-        }
 
     }
 
+    @Override
+    protected void onDestroy() {
+        robot.removeOnRequestPermissionResultListener(this);
+        robot.removeOnTelepresenceEventChangedListener(this);
+        robot.removeOnFaceRecognizedListener(this);
+        robot.removeOnSdkExceptionListener(this);
+        super.onDestroy();
+    }
 
     /**
      * Setting up all the event listeners
@@ -241,8 +250,82 @@ public class MainActivity extends AppCompatActivity implements
 
 
         FirebaseApp.initializeApp(this);
+        actReference = FirebaseDatabase.getInstance().getReference("ActionList");
+        progStatusReference = FirebaseDatabase.getInstance().getReference("ProgramInfo");
 
+        actionListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                try {
+                    //Log.i("FB-ADD-ACTON", dataSnapshot.getKey() + ":" + dataSnapshot.getValue().toString());
+                    qAction.add(dataSnapshot);
+                } catch (Exception e) {
+                    Log.e("Firebase", "Error put data in queue");
+                }
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                try {
+                    //Log.i("FB-CHANGE-ACTON", dataSnapshot.getKey() + ":" + dataSnapshot.getValue().toString());
+                    qAction.add(dataSnapshot);
+                } catch (Exception e) {
+                    Log.e("Firebase", "Error put data in queue");
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//                    Log.i("Action", currentAction + " is complete");
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        progInfoListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //Log.i("FB-CHANGE", "Program Status " + dataSnapshot.getValue());
+                Map<String, String> upload_status = (HashMap<String, String>) dataSnapshot.getValue();
+                //Acton Listener
+                if(upload_status.get("status").contains("DONE")) {
+                    Log.i("START", "Done upload program");
+                    actReference.orderByChild("order").addChildEventListener(actionListener);
+                }
+                else {
+                    Log.i("STOP", "Detaching listner");
+                    actReference.removeEventListener(actionListener);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
     }
 
     /**
@@ -283,8 +366,11 @@ public class MainActivity extends AppCompatActivity implements
             } catch (PackageManager.NameNotFoundException e) {
                 throw new RuntimeException(e);
             }
+            //SEt hight speed
+            robot.setGoToSpeed(SpeedLevel.HIGH);
+            robot.setNavigationSafety(SafetyLevel.MEDIUM);
+            progStatusReference.addChildEventListener(progInfoListener);
 
-           // Initialize action executor thread
             Thread actionExecutor = new Thread() {
                 public void run() {
                     while (true) {
@@ -294,19 +380,42 @@ public class MainActivity extends AppCompatActivity implements
                                  currentAction = qAction.poll();
 
                                  Map<String, String> actionInfo = (HashMap<String, String>) currentAction.getValue();
-                                 if(actionInfo.keySet().toArray()[0].toString().contains("SPEAK")) {
-                                     Log.i("Thread", "Action " + actionInfo.keySet().toArray()[0].toString() + ": " + actionInfo.get(actionInfo.keySet().toArray()[0].toString()).trim());
-                                     TtsRequest ttsRequest = TtsRequest.create(actionInfo.get(actionInfo.keySet().toArray()[0].toString()).trim(), true);
+                                 if(actionInfo.get("action").contains("SPEAK")) {
+                                     TtsRequest ttsRequest = TtsRequest.create(actionInfo.get("content").toString().trim(), true);
                                      robot.speak(ttsRequest);
                                  }
-                                 else if(actionInfo.keySet().toArray()[0].toString().contains("MOVE")) {
+                                 else if(actionInfo.get("action").contains("MOVE")) {
                                      Log.i("THREAD", "move");
-                                     if(actionInfo.get(actionInfo.keySet().toArray()[0].toString()).contains("FORWARD")) {
+                                     if(actionInfo.get("content").contains("FORWARD")) {
                                          Log.i("THREAD", "forward");
                                          long t = System.currentTimeMillis();
                                          long end = t + 1000;
                                          while (System.currentTimeMillis() < end) {
                                              robot.skidJoy(1F, 0F);
+                                         }
+                                     }
+                                     else if(actionInfo.get("content").contains("BACKWARD")) {
+                                         Log.i("THREAD", "forward");
+                                         long t = System.currentTimeMillis();
+                                         long end = t + 1000;
+                                         while (System.currentTimeMillis() < end) {
+                                             robot.skidJoy(-1F, 0F);
+                                         }
+                                     }
+                                     else if(actionInfo.get("content").contains("BACKWARD")) {
+                                         Log.i("THREAD", "forward");
+                                         long t = System.currentTimeMillis();
+                                         long end = t + 1000;
+                                         while (System.currentTimeMillis() < end) {
+                                             robot.skidJoy(0F, 1F);
+                                         }
+                                     }
+                                     else if(actionInfo.get("content").contains("BACKWARD")) {
+                                         Log.i("THREAD", "forward");
+                                         long t = System.currentTimeMillis();
+                                         long end = t + 1000;
+                                         while (System.currentTimeMillis() < end) {
+                                             robot.skidJoy(0F, -1F);
                                          }
                                      }
                                      isActionDone = true;
@@ -325,83 +434,20 @@ public class MainActivity extends AppCompatActivity implements
                 }
             };
             actionExecutor.start();
-
-            //Action Listener
-            ChildEventListener actionListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    try {
-                        Log.i("FB-ADD", "Data added " + dataSnapshot.getValue());
-                        qAction.add(dataSnapshot);
-                    }catch (Exception e) {
-                        Log.e("Firebase", "Error put data in queue");
-                    }
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    try {
-                        qAction.add(dataSnapshot);
-                    }catch (Exception e) {
-                        Log.e("Firebase", "Error put data in queue");
-                    }
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                    Log.i("Action", currentAction + " is complete");
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            };
-            FirebaseDatabase.getInstance().getReference("ActionList").addChildEventListener(actionListener);
         }
+
 
     }
 
     @Override
     public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
-        // Do whatever you like upon the status changing. after the robot finishes speaking
 
         //TEST remove speak action from database
         Log.i("TTsStatus", ""+ ttsRequest.getStatus().toString() + " of key " + currentAction.getKey());
         if(ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+            FirebaseDatabase.getInstance().getReference("ActionList/" + currentAction.getKey()).removeValue();
             isActionDone = true;
-            FirebaseDatabase.getInstance().getReference("ActionList/" + currentAction.getKey().toString()).removeValue();
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        initViews();
-        verifyStoragePermissions(this);
-        robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
-        robot.addOnRequestPermissionResultListener(this);
-        robot.addOnTelepresenceEventChangedListener(this);
-        robot.addOnFaceRecognizedListener(this);
-        robot.addOnSdkExceptionListener(this);
-
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        robot.removeOnRequestPermissionResultListener(this);
-        robot.removeOnTelepresenceEventChangedListener(this);
-        robot.removeOnFaceRecognizedListener(this);
-        robot.removeOnSdkExceptionListener(this);
-        super.onDestroy();
     }
 
     public void initViews() {
