@@ -427,31 +427,31 @@ public class MainActivity extends AppCompatActivity implements
                                      if(actionInfo.get("content").contains("FORWARD")) {
                                          Log.i("THREAD", "forward");
                                          long t = System.currentTimeMillis();
-                                         long end = t + 1000;
+                                         long end = t + 700;
                                          while (System.currentTimeMillis() < end) {
                                              robot.skidJoy(1F, 0F);
                                          }
                                      }
                                      else if(actionInfo.get("content").contains("BACKWARD")) {
-                                         Log.i("THREAD", "forward");
+                                         Log.i("THREAD", "backword");
                                          long t = System.currentTimeMillis();
                                          long end = t + 1000;
                                          while (System.currentTimeMillis() < end) {
                                              robot.skidJoy(-1F, 0F);
                                          }
                                      }
-                                     else if(actionInfo.get("content").contains("BACKWARD")) {
-                                         Log.i("THREAD", "forward");
+                                     else if(actionInfo.get("content").contains("LEFT")) {
+                                         Log.i("THREAD", "left");
                                          long t = System.currentTimeMillis();
-                                         long end = t + 1000;
+                                         long end = t + 1100;
                                          while (System.currentTimeMillis() < end) {
                                              robot.skidJoy(0F, 1F);
                                          }
                                      }
-                                     else if(actionInfo.get("content").contains("BACKWARD")) {
-                                         Log.i("THREAD", "forward");
+                                     else if(actionInfo.get("content").contains("RIGHT")) {
+                                         Log.i("THREAD", "right");
                                          long t = System.currentTimeMillis();
-                                         long end = t + 1000;
+                                         long end = t + 1100;
                                          while (System.currentTimeMillis() < end) {
                                              robot.skidJoy(0F, -1F);
                                          }
