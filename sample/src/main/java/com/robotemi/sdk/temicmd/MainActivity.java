@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //Log.i("FB-CHANGE", "Program Status " + dataSnapshot.getValue());
+                Log.i("FB-CHANGE", "Program Status " + dataSnapshot.getValue());
                 Map<String, String> upload_status = (HashMap<String, String>) dataSnapshot.getValue();
                 //Acton Listener
                 if(upload_status.get("status").contains("DONE")) {
@@ -369,7 +369,45 @@ public class MainActivity extends AppCompatActivity implements
             //SEt hight speed
             robot.setGoToSpeed(SpeedLevel.HIGH);
             robot.setNavigationSafety(SafetyLevel.MEDIUM);
-            progStatusReference.addChildEventListener(progInfoListener);
+
+            //Add Event Listener for program status
+            ChildEventListener programInfo = new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Log.i("FB-ADD-STATUS", "Program Status " + dataSnapshot.getValue());
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Log.i("FB-CHANGE", "Program Status " + dataSnapshot.getValue());
+                    Map<String, String> upload_status = (HashMap<String, String>) dataSnapshot.getValue();
+                    //Acton Listener
+                    if(upload_status.get("status").contains("DONE")) {
+                        Log.i("START", "Done upload program");
+                        actReference.orderByChild("order").addChildEventListener(actionListener);
+                    }
+                    else {
+                        Log.i("STOP", "Detaching listner");
+                        actReference.removeEventListener(actionListener);
+                    }
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            };
+            progStatusReference.addChildEventListener(programInfo);
 
             Thread actionExecutor = new Thread() {
                 public void run() {
