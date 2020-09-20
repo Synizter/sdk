@@ -11,6 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcf5d780-edf1-4fb0-9191-e7cd1a3bb7ff" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/sdk/sdk-sdk.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sdk/sdk-sdk.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sample/src/main/java/com/robotemi/sdk/temicmd/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/sample/src/main/java/com/robotemi/sdk/temicmd/MainActivity.java" afterDir="false" />
     </list>
@@ -141,38 +149,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1220" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1600064746756" />
-    <state width="939" height="273" key="GridCell.Tab.0.bottom" timestamp="1600254834948">
-      <screen x="-211" y="-1080" width="1920" height="1080" />
+    <state width="1398" height="216" key="GridCell.Tab.0.bottom" timestamp="1600402226329">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="939" height="273" key="GridCell.Tab.0.bottom/0.0.1440.900/-211.-1080.1920.1080@-211.-1080.1920.1080" timestamp="1600254834948" />
-    <state width="1398" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1599465351662" />
+    <state width="1398" height="216" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1600402226329" />
     <state width="1877" height="268" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1600077749386" />
     <state width="1878" height="273" key="GridCell.Tab.0.bottom/0.23.1440.877/-211.-1057.1920.1057@-211.-1057.1920.1057" timestamp="1600253094263" />
     <state width="1398" height="193" key="GridCell.Tab.0.bottom/0.23.1440.877/-211.-1057.1920.1057@0.23.1440.877" timestamp="1600231287669" />
     <state width="1398" height="206" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1599549758285" />
-    <state width="939" height="273" key="GridCell.Tab.0.center" timestamp="1600254834947">
-      <screen x="-211" y="-1080" width="1920" height="1080" />
+    <state width="1398" height="216" key="GridCell.Tab.0.center" timestamp="1600402226328">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="939" height="273" key="GridCell.Tab.0.center/0.0.1440.900/-211.-1080.1920.1080@-211.-1080.1920.1080" timestamp="1600254834947" />
-    <state width="1398" height="303" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1599465351661" />
+    <state width="1398" height="216" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1600402226328" />
     <state width="1877" height="268" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1600077749385" />
     <state width="1878" height="273" key="GridCell.Tab.0.center/0.23.1440.877/-211.-1057.1920.1057@-211.-1057.1920.1057" timestamp="1600253094261" />
     <state width="1398" height="193" key="GridCell.Tab.0.center/0.23.1440.877/-211.-1057.1920.1057@0.23.1440.877" timestamp="1600231287668" />
     <state width="1398" height="206" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1599549758284" />
-    <state width="939" height="273" key="GridCell.Tab.0.left" timestamp="1600254834946">
-      <screen x="-211" y="-1080" width="1920" height="1080" />
+    <state width="1398" height="216" key="GridCell.Tab.0.left" timestamp="1600402226327">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="939" height="273" key="GridCell.Tab.0.left/0.0.1440.900/-211.-1080.1920.1080@-211.-1080.1920.1080" timestamp="1600254834946" />
-    <state width="1398" height="303" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1599465351660" />
+    <state width="1398" height="216" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1600402226327" />
     <state width="1877" height="268" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1600077749385" />
     <state width="1878" height="273" key="GridCell.Tab.0.left/0.23.1440.877/-211.-1057.1920.1057@-211.-1057.1920.1057" timestamp="1600253094261" />
     <state width="1398" height="193" key="GridCell.Tab.0.left/0.23.1440.877/-211.-1057.1920.1057@0.23.1440.877" timestamp="1600231287666" />
     <state width="1398" height="206" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1599549758283" />
-    <state width="939" height="273" key="GridCell.Tab.0.right" timestamp="1600254834947">
-      <screen x="-211" y="-1080" width="1920" height="1080" />
+    <state width="1398" height="216" key="GridCell.Tab.0.right" timestamp="1600402226329">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="939" height="273" key="GridCell.Tab.0.right/0.0.1440.900/-211.-1080.1920.1080@-211.-1080.1920.1080" timestamp="1600254834947" />
-    <state width="1398" height="303" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1599465351662" />
+    <state width="1398" height="216" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1600402226329" />
     <state width="1877" height="268" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1600077749385" />
     <state width="1878" height="273" key="GridCell.Tab.0.right/0.23.1440.877/-211.-1057.1920.1057@-211.-1057.1920.1057" timestamp="1600253094262" />
     <state width="1398" height="193" key="GridCell.Tab.0.right/0.23.1440.877/-211.-1057.1920.1057@0.23.1440.877" timestamp="1600231287668" />
@@ -193,11 +201,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1599465351663" />
-    <state x="459" y="146" width="695" height="608" key="find.popup" timestamp="1599552947248">
+    <state x="459" y="146" width="695" height="608" key="find.popup" timestamp="1600404925095">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="401" y="-905" width="695" height="729" key="find.popup/0.0.1440.900/-211.-1080.1920.1080@-211.-1080.1920.1080" timestamp="1599470177716" />
-    <state x="459" y="146" width="695" height="608" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1599552947248" />
+    <state x="459" y="146" width="695" height="608" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1600404925095" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1599462351539">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

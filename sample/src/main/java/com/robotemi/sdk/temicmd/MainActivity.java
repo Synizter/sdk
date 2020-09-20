@@ -375,6 +375,13 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Log.i("FB-ADD-STATUS", "Program Status " + dataSnapshot.getValue());
+                    //Save loation command
+
+                    //Robot save location
+                    if(dataSnapshot.getKey().contains("SavedLocation")) {
+                        Map<String, String> info = (HashMap<String, String>) dataSnapshot.getValue();
+                        saveLocation(info.get(info.keySet().toArray()[0]));
+                    }
                 }
 
                 @Override
@@ -458,7 +465,10 @@ public class MainActivity extends AppCompatActivity implements
                                      }
                                      isActionDone = true;
                                      FirebaseDatabase.getInstance().getReference("ActionList/" + currentAction.getKey().toString()).removeValue();
-
+                                 }
+                                 //Robot Goto
+                                 else if(actionInfo.get("action").contains("GOTO")) {
+                                     goTo(actionInfo.get("content"));
                                  }
                             } catch (Exception e) {
                                 Log.e("THREAD-ERR", "Reason: " + e.toString());
@@ -514,8 +524,17 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * This is an example of saving locations.
      */
-    public void saveLocation(View view) {
-        String location = etSaveLocation.getText().toString().toLowerCase().trim();
+//    public void saveLocation(View view) {
+//        String location = etSaveLocation.getText().toString().toLowerCase().trim();
+//        boolean result = robot.saveLocation(location);
+//        if (result) {
+//            robot.speak(TtsRequest.create("I've successfully saved the " + location + " location.", true));
+//        } else {
+//            robot.speak(TtsRequest.create("Saved the " + location + " location failed.", true));
+//        }
+//        hideKeyboard();
+//    }
+    public void saveLocation(String location) {
         boolean result = robot.saveLocation(location);
         if (result) {
             robot.speak(TtsRequest.create("I've successfully saved the " + location + " location.", true));
@@ -524,14 +543,21 @@ public class MainActivity extends AppCompatActivity implements
         }
         hideKeyboard();
     }
-
     /**
      * goTo checks that the location sent is saved then goes to that location.
      */
-    public void goTo(View view) {
+//    public void goTo(View view) {
+//        for (String location : robot.getLocations()) {
+//            if (location.equals(etGoTo.getText().toString().toLowerCase().trim())) {
+//                robot.goTo(etGoTo.getText().toString().toLowerCase().trim());
+//                hideKeyboard();
+//            }
+//        }
+//    }
+    public void goTo(String des) {
         for (String location : robot.getLocations()) {
-            if (location.equals(etGoTo.getText().toString().toLowerCase().trim())) {
-                robot.goTo(etGoTo.getText().toString().toLowerCase().trim());
+            if (location.equals(des)) {
+                robot.goTo(des);
                 hideKeyboard();
             }
         }
